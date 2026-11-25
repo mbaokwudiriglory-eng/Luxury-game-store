@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>LUXURY APP STORE</title>
+<style>
+:root{--gold:#d7ad55;--bg:#090909;--panel:#151515;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+header{padding:22px 6%;background:linear-gradient(120deg,#090909,#20180c);border-bottom:1px solid #5e4823}
+.brand{font-size:clamp(24px,5vw,38px);font-weight:900;letter-spacing:2px;color:var(--gold);text-shadow:0 2px 12px #8a641f}
+.tag{color:#ddd;margin-top:7px;font-size:13px;letter-spacing:2px}
+main{max-width:1150px;margin:auto;padding:28px 18px 60px}
+.hero{padding:30px 24px;border:1px solid #59451f;border-radius:18px;background:radial-gradient(circle at 85% 20%,#473315 0,#21180c 28%,#111 70%);margin-bottom:25px}
+.hero h1{font-size:clamp(27px,5vw,44px);margin:0 0 10px}.hero h1 span{color:var(--gold)}
+.hero p{color:#ddd;max-width:620px;line-height:1.6;margin:0}
+.search{width:100%;padding:15px 17px;border-radius:12px;border:1px solid #555;background:#171717;color:white;font-size:16px;margin:5px 0 17px;outline:none}
+.search:focus{border-color:var(--gold)}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+.filters button{border:1px solid #574522;background:#171717;color:#eee;padding:10px 15px;border-radius:30px;cursor:pointer}
+.filters button.active,.filters button:hover{background:var(--gold);color:#111;border-color:var(--gold);font-weight:bold}
+.section-title{font-size:21px;margin:10px 0 16px;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid #292929;border-radius:16px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#8b6b32}
+.art{height:125px;display:grid;place-items:center;font-size:55px;background:linear-gradient(135deg,#30230d,#171717 65%,#46331a)}
+.info{padding:15px}.info h3{margin:0 0 7px;font-size:18px}.category{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px}
+.info p{color:var(--muted);font-size:13px;line-height:1.45;min-height:37px}
+.link{display:inline-block;text-decoration:none;background:var(--gold);color:#111;padding:10px 13px;border-radius:9px;font-weight:bold;font-size:13px}
+footer{text-align:center;padding:24px;color:#888;border-top:1px solid #292929;font-size:12px}
+.empty{color:#aaa;padding:25px;text-align:center;display:none}
+</style>
+</head>
+<body>
+<header><div class="brand">♛ LUXURY APP STORE</div><div class="tag">GAMES • ENTERTAINMENT • APPS</div></header>
+<main>
+<section class="hero"><h1>Discover your next <span>favourite game.</span></h1><p>Explore games and apps in one place. Search the collection, choose a category, and use the store link to find the app on Google Play.</p></section>
+<input id="search" class="search" type="search" placeholder="Search games and apps..." aria-label="Search games and apps">
+<nav class="filters" aria-label="Categories">
+<button class="active" data-category="All">All</button><button data-category="Action">Action</button><button data-category="Sports">Sports</button><button data-category="Racing">Racing</button><button data-category="Puzzle">Puzzle</button><button data-category="Adventure">Adventure</button><button data-category="Education">Education</button><button data-category="Entertainment">Entertainment</button>
+</nav>
+<h2 class="section-title">Featured collection</h2>
+<section id="grid" class="grid"></section><div id="empty" class="empty">No matching apps. Try another search or category.</div>
+</main>
+<footer>© 2026 LUXURY APP STORE • Independent app discovery website. App downloads are provided by Google Play.</footer>
+<script>
+const apps=[
+{name:"Subway Surfers",cat:"Action",emoji:"🚇",desc:"Run, dodge obstacles and collect coins.",query:"Subway Surfers"},
+{name:"Free Fire",cat:"Action",emoji:"🔥",desc:"Battle royale action and survival.",query:"Garena Free Fire"},
+{name:"Call of Duty: Mobile",cat:"Action",emoji:"🎯",desc:"Competitive multiplayer shooting action.",query:"Call of Duty Mobile"},
+{name:"EA SPORTS FC Mobile",cat:"Sports",emoji:"⚽",desc:"Build your team and play football.",query:"EA SPORTS FC Mobile"},
+{name:"eFootball",cat:"Sports",emoji:"🏆",desc:"Football matches and team building.",query:"eFootball"},
+{name:"Asphalt 9",cat:"Racing",emoji:"🏎️",desc:"High-speed racing and supercars.",query:"Asphalt Legends"},
+{name:"Hill Climb Racing",cat:"Racing",emoji:"🚙",desc:"Fun physics-based driving challenges.",query:"Hill Climb Racing"},
+{name:"Candy Crush Saga",cat:"Puzzle",emoji:"🍬",desc:"Match colourful candies and solve levels.",query:"Candy Crush Saga"},
+{name:"Roblox",cat:"Adventure",emoji:"🧱",desc:"Explore experiences created by players.",query:"Roblox"},
+{name:"Minecraft",cat:"Adventure",emoji:"⛏️",desc:"Build, explore and create your own world.",query:"Minecraft"},
+{name:"Duolingo",cat:"Education",emoji:"🦉",desc:"Learn languages through short lessons.",query:"Duolingo"},
+{name:"YouTube",cat:"Entertainment",emoji:"▶️",desc:"Watch videos, music and entertainment.",query:"YouTube"}
+];
+const grid=document.getElementById("grid"),search=document.getElementById("search"),empty=document.getElementById("empty");
+let category="All";
+function render(){
+ const term=search.value.trim().toLowerCase();
+ const filtered=apps.filter(a=>(category==="All"||a.cat===category)&&(a.name+" "+a.cat+" "+a.desc).toLowerCase().includes(term));
+ grid.innerHTML=filtered.map(a=>`<article class="card"><div class="art" aria-hidden="true">${a.emoji}</div><div class="info"><div class="category">${a.cat}</div><h3>${a.name}</h3><p>${a.desc}</p><a class="link" href="https://play.google.com/store/search?q=${encodeURIComponent(a.query)}&c=apps" target="_blank" rel="noopener">Find on Google Play ↗</a></div></article>`).join("");
+ empty.style.display=filtered.length?"none":"block";
+}
+document.querySelectorAll(".filters button").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");category=btn.dataset.category;render();
+}));
+search.addEventListener("input",render);render();
+</script>
+</body>
+</html>
